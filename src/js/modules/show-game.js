@@ -1,12 +1,12 @@
 import { DOM } from './dom-element';
-import { COLORS } from './settings';
-import { WORDS } from './settings';
+import { COLORS, WORDS, DEFEAT, VICTORY } from './settings';
 
 function showGame() {
-  const { containerGame, screen } = DOM;
   let speed = 1500;
   let countWords = 9;
   let sound = 1;
+  let isVictory = false;
+  let timerId;
 
   /**
    * Добавляет разметку в родительский элемент.
@@ -35,20 +35,69 @@ function showGame() {
     screenFirst.remove();
   }
 
-  function changeActiveButton (parentElement, settingsParam, dataParam) {
+  /**
+   * Возвращает рандомное число из заданного диапазона.
+   *
+   * @param {number} min минимальное значение.
+   * @param {number} max максимальное значение.
+   * @return {string} разметка экрана с результатами игры.
+   */
+  function getRandomNumber(min, max, exception = -1) {
+    const randomNumber = Math.round(Math.random() * (max - min) + min);
+    if (randomNumber !== exception) {
+      return randomNumber;
+    }
+    getRandomNumber(min, max, exception);
+  }
+
+  function changeActiveButton(parentElement, param) {
     parentElement.addEventListener('click', (event) => {
       if (event.target.classList.contains('button')) {
-        settingsParam = Number(event.target.dataset[dataParam]);
+        if (param === 'speed') speed = Number(event.target.dataset[param]);
+        if (param === 'sound') sound = Number(event.target.dataset[param]);
+
         const buttons = parentElement.querySelectorAll('.button');
-        console.log(settingsParam)
 
         buttons.forEach((button) => {
-          button.classList.remove('button--active')
-        })
+          button.classList.remove('button--active');
+        });
 
-        event.target.classList.add('button--active')
+        event.target.classList.add('button--active');
       }
-    })
+    });
+  }
+
+  function showWord() {
+    if (countWords === 0) {
+      finishGame();
+    } else {
+      const gameBoardItemsList = document.querySelectorAll('.game__board-item');
+      gameBoardItemsList.forEach((item) => {
+        item.textContent = '';
+      });
+
+      const activeItem = document.getElementById(
+        `item-${getRandomNumber(1, 6)}`
+      );
+      const indexWord = getRandomNumber(0, WORDS.length);
+      const indexColor = getRandomNumber(0, WORDS.length, indexWord);
+      activeItem.textContent = WORDS[indexWord];
+      activeItem.style.color = COLORS[indexColor];
+
+      const newWordAudio = new Audio();
+      newWordAudio.src = './files/new.mp3';
+      sound && newWordAudio.play();
+
+      countWords--;
+    }
+  }
+
+  function finishGame() {
+    clearInterval(timerId);
+    removeScreen();
+    const screen = addScreen(DOM.containerGame);
+    addMarkup(screen, createFinishScreen());
+    addFunctionaliatyFinishScreen();
   }
 
   /**
@@ -76,7 +125,7 @@ function showGame() {
       <div class="game__descr">
         <h2 class="game__title">Назови цвет</h2>
         <p class="game__text">
-            Пришла пора тренировки внимания! Не читай, что написано, просто называй цвет надписи.
+            Пришла пора тренировки внимания! Не читай, что написано, просто называй цвета.
         </p>
         <button class="game__button button button--light" id="settings-btn">Пройти испытание</button>
       </div>
@@ -100,9 +149,9 @@ function showGame() {
                   До начала испытания всего один шаг. Выбери подходящие настройки.
                   <h3 class="game__subtitle">Скорость смены слов:</h3>
                   <div class="game__buttons-list" id="buttons-list-speed">
-                    <button class="game__button--setting button" data-speed="800"><span class="icon icon--bike"></span>Медленно</button>
+                    <button class="game__button--setting button" data-speed="2000"><span class="icon icon--bike"></span>Медленно</button>
                     <button class="game__button--setting button button--active" data-speed="1500"><span class="icon icon--car"></span>Средне</button>
-                    <button class="game__button--setting button" data-speed="2000"><span class="icon icon--rocket"></span>Быстро</button>
+                    <button class="game__button--setting button" data-speed="800"><span class="icon icon--rocket"></span>Быстро</button>
                   </div>
                   <h3 class="game__subtitle">Количество слов:</h3>
                   <div class="game__range">
@@ -137,7 +186,7 @@ function showGame() {
   function createGameScreen() {
     const markup = `
             <div class="game__inner">
-              <div class="game__board">
+              <div class="game__board" id="board">
                 <div class="game__board-item" id="item-1"></div>
                 <div class="game__board-item" id="item-2"></div>
                 <div class="game__board-item" id="item-3"></div>
@@ -146,6 +195,44 @@ function showGame() {
                 <div class="game__board-item" id="item-6"></div>
               </div>
             </div>
+    `;
+
+    return markup;
+  }
+
+  function createFinishScreen() {
+    const markup = `
+    <div class="game__inner game__inner--finish">
+      <div class="game__img">
+        <img src="./img/svg/finish.svg" alt="Котик смотрит на знак вопроса" />
+      </div>
+      <div class="game__descr">
+        <h2 class="game__title">Оцени себя.<br> У тебя все получилось?</h2>
+        <div class="game__buttons-list game__buttons-list--grade" id="buttons-list-grade">
+          <button class="game__button--grade button button--green" id="button-yes"><span class="icon icon--smile"></span>Да</button>
+          <button class="game__button--grade button button--red" id="button-no"><span class="icon icon--sad"></span>Нет</button>
+        </div>
+      </div>
+    </div>
+    `;
+
+    return markup;
+  }
+
+  function createResScreen() {
+    const { src, text } = isVictory
+      ? VICTORY[getRandomNumber(0, VICTORY.length - 1)]
+      : DEFEAT[getRandomNumber(0, DEFEAT.length - 1)];
+    const markup = `
+    <div class="game__inner game__inner--finish">
+      <div class="game__descr">
+        <h2 class="game__title">${text}</h2>
+        <button class="game__button button button--light" id="new-game-btn">Играть снова</button>
+      </div>
+      <div class="game__img">
+        <img src=${src} alt="Котик" />
+      </div>
+    </div>
     `;
 
     return markup;
@@ -161,7 +248,8 @@ function showGame() {
 
       settingsBtn.addEventListener('click', (event) => {
         event.preventDefault();
-        const screen = addScreen(containerGame);
+        document.querySelectorAll('.screen').length > 1 && removeScreen();
+        const screen = addScreen(DOM.containerGame);
         addMarkup(screen, createSettingsScreen());
         addFunctionaliatySettingsScreen();
       });
@@ -175,7 +263,7 @@ function showGame() {
   function addFunctionaliatySettingsScreen() {
     if (document.getElementById('buttons-list-speed')) {
       const buttonsListSpeed = document.getElementById('buttons-list-speed');
-      changeActiveButton (buttonsListSpeed, speed, 'speed');
+      changeActiveButton(buttonsListSpeed, 'speed');
     }
 
     if (document.querySelector('.game__range')) {
@@ -186,28 +274,85 @@ function showGame() {
         countWords = sliderInput.value;
         slideValue.textContent = countWords;
         slideValue.style.left = `${countWords * 10 - 40}%`;
-        console.log(countWords);
       };
     }
 
     if (document.getElementById('buttons-list-sound')) {
       const buttonsListSound = document.getElementById('buttons-list-sound');
-      changeActiveButton (buttonsListSound, sound, 'sound');
+      changeActiveButton(buttonsListSound, 'sound');
     }
 
     if (document.getElementById('start-btn')) {
       const startBtn = document.getElementById('start-btn');
+
       startBtn.addEventListener('click', (event) => {
         event.preventDefault();
         removeScreen();
-        const screen = addScreen(containerGame);
+        const screen = addScreen(DOM.containerGame);
         addMarkup(screen, createGameScreen());
-        // addFunctionaliatySettingsScreen();
+        addFunctionaliatyGameScreen();
       });
     }
   }
 
-  addMarkup(screen, createStartScreen());
+  function addFunctionaliatyGameScreen() {
+    if (document.getElementById('board')) {
+      timerId = setInterval(showWord, speed);
+    }
+  }
+
+  function addFunctionaliatyFinishScreen() {
+    const finishAudio = new Audio();
+    finishAudio.src = './files/stop.mp3';
+    sound && finishAudio.play();
+
+    if (document.getElementById('buttons-list-grade')) {
+      const yesBtn = document.getElementById('button-yes');
+      const noBtn = document.getElementById('button-no');
+
+      function showResult() {
+        removeScreen();
+        const screen = addScreen(DOM.containerGame);
+        addMarkup(screen, createResScreen());
+        addFunctionaliatyResScreen();
+      }
+
+      yesBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        isVictory = true;
+        showResult();
+      });
+
+      noBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        isVictory = false;
+        showResult();
+      });
+    }
+  }
+
+  function addFunctionaliatyResScreen() {
+    const resAudio = new Audio();
+    resAudio.src = isVictory ? './files/victory.mp3' : './files/defeat.mp3';
+    sound && resAudio.play();
+
+    if (document.getElementById('new-game-btn')) {
+      const newGameBtn = document.getElementById('new-game-btn');
+      newGameBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        removeScreen();
+        const screen = addScreen(DOM.containerGame);
+        addMarkup(screen, createStartScreen());
+        addFunctionaliatyStartScreen();
+        speed = 1500;
+        countWords = 9;
+        sound = 1;
+        // removeScreen();
+      });
+    }
+  }
+
+  addMarkup(DOM.screen, createStartScreen());
   addFunctionaliatyStartScreen();
 }
 

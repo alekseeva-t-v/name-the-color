@@ -109,6 +109,24 @@ body {
     }
   }
 
+  &--green {
+    background: linear-gradient(
+      135deg,
+      #a3eac3 0%,
+      #08b857 100%
+    );
+    color: var(--light)
+  }
+
+  &--red {
+    background: linear-gradient(
+      135deg,
+      #f17e80 0%,
+      #e64144 100%
+    );
+    color: var(--light)
+  }
+
   &--active {
     color: var(--light);
     background: linear-gradient(
@@ -172,6 +190,14 @@ body {
 .icon--sound-off {
   background-image: url(../img/svg/sound-off-unactive.svg);
   background-size: 3.1rem;
+}
+
+.icon--smile {
+  background-image: url(../img/svg/smile.svg);
+}
+
+.icon--sad {
+  background-image: url(../img/svg/sad.svg);
 }
 
 @keyframes slideme {
