@@ -14,3 +14,10 @@
     background-repeat: no-repeat;
   }
 }
+
+@media (max-width: 768px) {
+  .main::before {
+    height: 15rem;
+    width: 50rem;
+  }
+}

@@ -1,5 +1,5 @@
 import showGame from './modules/show-game';
-import showSlider from './modules/slider';
+import mobileNav from './modules/mobile-nav';
 
 showGame();
-showSlider();
+mobileNav();

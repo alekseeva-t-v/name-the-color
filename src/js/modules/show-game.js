@@ -1,5 +1,6 @@
 import { DOM } from './dom-element';
 import { COLORS, WORDS, DEFEAT, VICTORY } from './settings';
+import showSlider from './slider';
 
 function showGame() {
   let speed = 1500;
@@ -44,10 +45,10 @@ function showGame() {
    */
   function getRandomNumber(min, max, exception = -1) {
     const randomNumber = Math.round(Math.random() * (max - min) + min);
-    if (randomNumber !== exception) {
-      return randomNumber;
+    if (randomNumber === exception) {
+      getRandomNumber(min, max, exception);
     }
-    getRandomNumber(min, max, exception);
+    return randomNumber;
   }
 
   function changeActiveButton(parentElement, param) {
@@ -79,16 +80,19 @@ function showGame() {
       const activeItem = document.getElementById(
         `item-${getRandomNumber(1, 6)}`
       );
+
       const indexWord = getRandomNumber(0, WORDS.length);
       const indexColor = getRandomNumber(0, WORDS.length, indexWord);
       activeItem.textContent = WORDS[indexWord];
       activeItem.style.color = COLORS[indexColor];
 
-      const newWordAudio = new Audio();
-      newWordAudio.src = './files/new.mp3';
-      sound && newWordAudio.play();
+      if (activeItem.textContent) {
+        const newWordAudio = new Audio();
+        newWordAudio.src = './files/new.mp3';
+        sound && newWordAudio.play();
 
-      countWords--;
+        countWords--;
+      }
     }
   }
 
@@ -124,6 +128,9 @@ function showGame() {
       </div>
       <div class="game__descr">
         <h2 class="game__title">Назови цвет</h2>
+        <div class="game__img--mobile">
+          <img src="./img/svg/start-01.svg" alt="Котик с красным клубком" />
+        </div>
         <p class="game__text">
             Пришла пора тренировки внимания! Не читай, что написано, просто называй цвета.
         </p>
@@ -142,7 +149,7 @@ function showGame() {
    */
   function createSettingsScreen() {
     const markup = `
-            <div class="game__inner">
+            <div class="game__inner game__inner--setting">
               <div class="game__descr">
                 <h2 class="game__title">Настройки</h2>
                 <div class="game__text">
@@ -208,6 +215,9 @@ function showGame() {
       </div>
       <div class="game__descr">
         <h2 class="game__title">Оцени себя.<br> У тебя все получилось?</h2>
+        <div class="game__img--mobile">
+          <img src="./img/svg/finish.svg" alt="Котик смотрит на знак вопроса" />
+        </div>
         <div class="game__buttons-list game__buttons-list--grade" id="buttons-list-grade">
           <button class="game__button--grade button button--green" id="button-yes"><span class="icon icon--smile"></span>Да</button>
           <button class="game__button--grade button button--red" id="button-no"><span class="icon icon--sad"></span>Нет</button>
@@ -227,6 +237,9 @@ function showGame() {
     <div class="game__inner game__inner--finish">
       <div class="game__descr">
         <h2 class="game__title">${text}</h2>
+        <div class="game__img--mobile">
+          <img src=${src} alt="Котик" />
+        </div>
         <button class="game__button button button--light" id="new-game-btn">Играть снова</button>
       </div>
       <div class="game__img">
@@ -243,6 +256,7 @@ function showGame() {
    *
    */
   function addFunctionaliatyStartScreen() {
+    showSlider();
     if (document.getElementById('settings-btn')) {
       const settingsBtn = document.getElementById('settings-btn');
 
@@ -347,7 +361,6 @@ function showGame() {
         speed = 1500;
         countWords = 9;
         sound = 1;
-        // removeScreen();
       });
     }
   }

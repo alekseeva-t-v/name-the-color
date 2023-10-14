@@ -1,6 +1,6 @@
 .game {
-  min-width: 300px;
-  height: calc(100vh - 24rem);
+  min-width: 30rem;
+  height: calc(100vh - 20rem);
   font-size: 2rem;
   font-weight: 400;
   line-height: 1.3;
@@ -44,6 +44,11 @@
     img {
       width: 100%;
     }
+  }
+
+  &__img--mobile {
+    display: none;
+    width: 60%
   }
 
   &__slide {
@@ -111,7 +116,6 @@
     }
   }
 
-
   &__range {
     height: 8rem;
     width: 90%;
@@ -143,10 +147,10 @@
 
     input {
       -webkit-appearance: none;
-      height: 3px;
+      height: 0.3rem;
       width: 100%;
       background: var(--accent);
-      border-radius: 5px;
+      border-radius: 0.5rem;
       outline: none;
       border: none;
 
@@ -185,7 +189,7 @@
     height: 30%;
     padding-top: 2rem;
     font-family: var(--font-accent);
-    font-size: 10rem;
+    font-size: 8rem;
   }
 
   .slider__value {
@@ -230,7 +234,7 @@
     align-items: center;
     justify-content: center;
     width: 50%;
-    margin-right: 70px;
+    margin-right: 7rem;
   }
 
   &__play-img {
@@ -238,21 +242,21 @@
   }
 
   &__res {
-    margin-bottom: 60px;
-    font-size: 30px;
+    margin-bottom: 6rem;
+    font-size: 3rem;
     color: var(--white);
   }
 
   &__timer {
-    margin-bottom: 60px;
+    margin-bottom: 6rem;
     font-family: 'Sofia Sans', sans-serif;
-    font-size: 60px;
+    font-size: 6rem;
     color: var(--game-accent);
   }
 
   &__time {
     font-family: 'Roboto Mono', monospace;
-    font-size: 42px;
+    font-size: 4.2rem;
     color: var(--white);
   }
 }
@@ -262,12 +266,12 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: calc(100vh - 24rem);
+  height: calc(100vh - 20rem);
   width: 100%;
   transition: margin 0.5s ease-out;
 
   &.up {
-    margin-top: -70vh;
+    margin-top: -75vh;
   }
 
   &.down {
@@ -277,8 +281,8 @@
 
 .field-title {
   position: absolute;
-  top: -10px;
-  left: 8px;
+  top: -1rem;
+  left: 0.8rem;
   transform: translateY(-50%);
   font-weight: 800;
   color: rgba(255, 255, 255, 0.5);
@@ -299,7 +303,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 30px 0;
+  margin: 3rem 0;
 
   &::before,
   &::after {
@@ -310,190 +314,249 @@
   }
   &::before {
     content: attr(data-min);
-    left: 10px;
+    left: 1rem;
   }
   &::after {
     content: attr(data-max);
-    right: 10px;
+    right: 1rem;
   }
 }
 
 @keyframes leftToRight {
   0% {
     opacity: 0;
-    transform: translateX(-100px);
+    transform: translateX(-10rem);
   }
   80% {
-    transform: translateX(20px);
+    transform: translateX(2rem);
   }
   100% {
     opacity: 1;
-    transform: translateX(0px);
+    transform: translateX(0rem);
   }
 }
 
 @keyframes RightToLeft {
   0% {
     opacity: 0;
-    transform: translateX(100px);
+    transform: translateX(10rem);
   }
   80% {
-    transform: translateX(-20px);
+    transform: translateX(-2rem);
   }
   100% {
     opacity: 1;
-    transform: translateX(0px);
+    transform: translateX(0rem);
   }
 }
 
 @keyframes TopToBottom {
   0% {
     opacity: 0;
-    transform: translateY(-50px);
+    transform: translateY(-5rem);
   }
   100% {
     opacity: 1;
-    transform: translateY(0px);
+    transform: translateY(0rem);
   }
 }
 
 @keyframes BottomToTop {
   0% {
     opacity: 0;
-    transform: translateY(50px);
+    transform: translateY(5rem);
   }
   100% {
     opacity: 1;
-    transform: translateY(0px);
-  }
-}
-
-
-
-@media (hover: hover) {
-  .game__button {
-    animation-name: BottomToTop;
-    animation-duration: 2s;
-    animation-delay: 0.7s;
-    animation-timing-function: ease;
+    transform: translateY(0rem);
   }
 }
 
 @media (max-width: 992px) {
-  .game {
-    &__title {
-      margin-bottom: 30px;
-      font-size: 40px;
-    }
+  .game__inner.game__inner--setting {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
 
-    &__text {
-      margin-bottom: 40px;
-      font-size: 20px;
-    }
-
-    &__button {
-      font-size: 18px;
-    }
-
-    &__play-img {
+    .game__img {
       display: none;
     }
 
-    &__inner--game {
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-
-      .game__descr {
-        width: 100%;
-      }
-
-      .game__play-descr {
-        width: 100%;
-        margin-left: auto;
-        margin-right: auto;
-      }
+    .game__descr {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    &__board {
-      width: 400px;
-      height: 400px;
-    }
-
-    &__timer {
-      margin-bottom: 30px;
-      font-size: 40px;
-    }
-
-    &__time {
-      font-size: 30px;
+    .game__text {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
   }
 }
 
 @media (max-width: 768px) {
-  .game {
-    &__inner {
-      flex-direction: column-reverse;
-      row-gap: 20px;
+  .game__inner--start, .game__inner--finish {
+    .game__img {
+      display: none;
     }
 
-    &__descr {
+    .game__descr {
       width: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
 
-    &__img {
-      width: 60%;
+    .game__text {
+      width: 100%;
+      margin-left: auto;
+      margin-right: auto;
     }
+  }
 
-    &__title {
-      margin-bottom: 20px;
-      font-size: 30px;
+  .game__inner--finish {
+    .game__title {
+      font-size: 4rem;
     }
+  }
 
-    &__text {
-      margin-bottom: 20px;
-      font-size: 18px;
-    }
+  .game__img--mobile {
+    display: block;
+    margin: 1rem auto 3rem;
+  }
 
-    &__button {
-      font-size: 16px;
-    }
-
-    &__res {
-      font-size: 20px;
-    }
-
-    &__timer {
-      margin-top: 30px;
-    }
+  .game__board-item {
+    width: 100%;
+    font-size: 6rem;
+    height: 15%;
   }
 }
 
-@media (max-width: 576px) {
-  .game {
-    height: calc(100vh - 74px);
-    padding: 10px;
+// @media (hover: hover) {
+//   .game__button {
+//     animation-name: BottomToTop;
+//     animation-duration: 2s;
+//     animation-delay: 0.7s;
+//     animation-timing-function: ease;
+//   }
+// }
 
-    &__inner {
-      padding: 0 10px 0;
-    }
+// @media (max-width: 992px) {
+//   .game {
+//     &__title {
+//       margin-bottom: 30px;
+//       font-size: 40px;
+//     }
 
-    &__buttons-list {
-      gap: 10px;
-    }
+//     &__text {
+//       margin-bottom: 40px;
+//       font-size: 20px;
+//     }
 
-    &__board {
-      width: 250px;
-      height: 250px;
-    }
+//     &__button {
+//       font-size: 18px;
+//     }
 
-    &__timer {
-      font-size: 30px;
-    }
+//     &__play-img {
+//       display: none;
+//     }
 
-    &__time {
-      font-size: 24px;
-    }
-  }
-}
+//     &__inner--game {
+//       flex-direction: column;
+//       align-items: center;
+//       justify-content: center;
+
+//       .game__descr {
+//         width: 100%;
+//       }
+
+//       .game__play-descr {
+//         width: 100%;
+//         margin-left: auto;
+//         margin-right: auto;
+//       }
+//     }
+
+//     &__board {
+//       width: 400px;
+//       height: 400px;
+//     }
+
+//     &__timer {
+//       margin-bottom: 30px;
+//       font-size: 40px;
+//     }
+
+//     &__time {
+//       font-size: 30px;
+//     }
+//   }
+// }
+
+// @media (max-width: 768px) {
+//   .game {
+//     &__inner {
+//       flex-direction: column-reverse;
+//       row-gap: 20px;
+//     }
+
+//     &__descr {
+//       width: 100%;
+//     }
+
+//     &__img {
+//       width: 60%;
+//     }
+
+//     &__title {
+//       margin-bottom: 20px;
+//       font-size: 30px;
+//     }
+
+//     &__text {
+//       margin-bottom: 20px;
+//       font-size: 18px;
+//     }
+
+//     &__button {
+//       font-size: 16px;
+//     }
+
+//     &__res {
+//       font-size: 20px;
+//     }
+
+//     &__timer {
+//       margin-top: 30px;
+//     }
+//   }
+// }
+
+// @media (max-width: 576px) {
+//   .game {
+//     height: calc(100vh - 74px);
+//     padding: 10px;
+
+//     &__inner {
+//       padding: 0 10px 0;
+//     }
+
+//     &__buttons-list {
+//       gap: 10px;
+//     }
+
+//     &__board {
+//       width: 250px;
+//       height: 250px;
+//     }
+
+//     &__timer {
+//       font-size: 30px;
+//     }
+
+//     &__time {
+//       font-size: 24px;
+//     }
+//   }
+// }

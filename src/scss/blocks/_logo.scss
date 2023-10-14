@@ -23,3 +23,10 @@
     color: var(--light);
   }
 }
+
+@media (max-width: 768px) {
+  .logo__text {
+    width: 26rem;
+    font-size: 1.9rem;
+  }
+}

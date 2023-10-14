@@ -1,14 +1,14 @@
 .footer {
 	background-color: var(--accent-dark);
-	padding: 50px 0;
-	font-size: 32px;
+	padding: 3rem 0;
+	font-size: 3rem;
     color: #fff;
 
 	h1 {
-		font-size: 32px;
+		font-size: 3rem
 	}
 
 	@media (max-width: 1200px) {
-		font-size: 26px;
+		font-size: 2rem;
 	}
 }
