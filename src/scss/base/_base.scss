@@ -217,16 +217,11 @@ body {
 @media (max-width: 992px) {
   html,
   body {
-    font-size: 7px;
+    font-size: 6.5px;
   }
 }
 
 @media (max-width: 768px) {
-  html,
-  body {
-    font-size: 6.2px;
-  }
-
   .wrapper::before {
     height: 20rem;
     width: 56rem;
@@ -240,6 +235,6 @@ body {
 @media (max-width: 360px) {
   html,
   body {
-    font-size: 5.7px;
+    font-size: 6.2px;
   }
 }
