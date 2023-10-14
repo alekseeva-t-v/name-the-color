@@ -46,7 +46,7 @@ function showGame() {
   function getRandomNumber(min, max, exception = -1) {
     const randomNumber = Math.round(Math.random() * (max - min) + min);
     if (randomNumber === exception) {
-      getRandomNumber(min, max, exception);
+      return randomNumber + 1 ? randomNumber + 1 : randomNumber - 1;
     }
     return randomNumber;
   }
