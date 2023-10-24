@@ -19,6 +19,12 @@ function showGame() {
     parentElement.innerHTML = childElement;
   }
 
+  /**
+   * Создает и возвращает разметку рабочего экрана, при этом перемещая предыдущий экран из видимой области и очишая его содержимое
+   *
+   * @param {object} parentElement Родительский элемент.
+   * @return {object} разметка рабочего экрана.
+   */
   function addScreen(parentElement) {
     const newScreen = document.createElement('div');
     newScreen.className = 'screen';
@@ -31,6 +37,10 @@ function showGame() {
     return newScreen;
   }
 
+  /**
+   * Удаляет элемент первого (скрытого) экрана
+   *
+   */
   function removeScreen() {
     const screenFirst = document.querySelector('.screen');
     screenFirst.remove();
@@ -41,7 +51,8 @@ function showGame() {
    *
    * @param {number} min минимальное значение.
    * @param {number} max максимальное значение.
-   * @return {string} разметка экрана с результатами игры.
+   * @param {number} exception число, которое необходимо исключить из диапазона.
+   * @return {number} рандомное число.
    */
   function getRandomNumber(min, max, exception = -1) {
     const randomNumber = Math.round(Math.random() * (max - min) + min);
@@ -51,6 +62,13 @@ function showGame() {
     return randomNumber;
   }
 
+  /**
+   * Присваивает указанному параметру значение датаатрибута выбранной кнопки, меняет оформлениеп активной кнопки.
+   *
+   * @param {object} parentElement родительский элемент, в котором находится группа кнопок.
+   * @param {string} param строковое название параметра за который отвечает группа кнопок.
+   *
+   */
   function changeActiveButton(parentElement, param) {
     parentElement.addEventListener('click', (event) => {
       if (event.target.classList.contains('button')) {
@@ -68,6 +86,10 @@ function showGame() {
     });
   }
 
+   /**
+   * Отображает новое слово, если игра не закончена
+   *
+   */
   function showWord() {
     if (countWords === 0) {
       finishGame();
@@ -96,6 +118,10 @@ function showGame() {
     }
   }
 
+  /**
+   * Завершает игру
+   *
+   */
   function finishGame() {
     clearInterval(timerId);
     removeScreen();
@@ -190,6 +216,11 @@ function showGame() {
     return markup;
   }
 
+  /**
+   * Формирует и возвращает разметку экрана с игровым полем.
+   *
+   * @return {string} разметка экрана с игровым полем.
+   */
   function createGameScreen() {
     const markup = `
             <div class="game__inner">
@@ -207,6 +238,11 @@ function showGame() {
     return markup;
   }
 
+  /**
+   * Формирует и возвращает разметку экрана с завершающим вопросом.
+   *
+   * @return {string} разметка экрана с завершающим вопросом.
+   */
   function createFinishScreen() {
     const markup = `
     <div class="game__inner game__inner--finish">
@@ -229,8 +265,13 @@ function showGame() {
     return markup;
   }
 
+  /**
+   * Формирует и возвращает разметку экрана с результатом.
+   *
+   * @return {string} разметка экрана с результатом.
+   */
   function createResScreen() {
-    const { src, text } = isVictory
+    const { src1, text } = isVictory
       ? VICTORY[getRandomNumber(0, VICTORY.length - 1)]
       : DEFEAT[getRandomNumber(0, DEFEAT.length - 1)];
     const markup = `
@@ -238,12 +279,12 @@ function showGame() {
       <div class="game__descr">
         <h2 class="game__title">${text}</h2>
         <div class="game__img--mobile">
-          <img src=${src} alt="Котик" />
+          <img src=${src1} alt="Котик" />
         </div>
         <button class="game__button button button--light" id="new-game-btn">Играть снова</button>
       </div>
       <div class="game__img">
-        <img src=${src} alt="Котик" />
+        <img src=${src1} alt="Котик" />
       </div>
     </div>
     `;
@@ -271,7 +312,7 @@ function showGame() {
   }
 
   /**
-   * Добавляет обработчики событий для первого экрана, когда он сформирован.
+   * Добавляет обработчики событий для экрана с настройками, когда он сформирован.
    *
    */
   function addFunctionaliatySettingsScreen() {
@@ -309,12 +350,20 @@ function showGame() {
     }
   }
 
+  /**
+   * Добавляет функциональность для экрана с игрой.
+   *
+   */
   function addFunctionaliatyGameScreen() {
     if (document.getElementById('board')) {
       timerId = setInterval(showWord, speed);
     }
   }
 
+  /**
+   * Добавляет обработчики событий для экрана с финальным вопросом, когда он сформирован.
+   *
+   */
   function addFunctionaliatyFinishScreen() {
     const finishAudio = new Audio();
     finishAudio.src = './files/stop.mp3';
@@ -345,6 +394,10 @@ function showGame() {
     }
   }
 
+  /**
+   * Добавляет обработчики событий для экрана с результатами, когда он сформирован.
+   *
+   */
   function addFunctionaliatyResScreen() {
     const resAudio = new Audio();
     resAudio.src = isVictory ? './files/victory.mp3' : './files/defeat.mp3';
