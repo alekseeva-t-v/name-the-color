@@ -85,7 +85,7 @@ function showGame() {
           button.classList.remove('button--active');
         });
 
-        event.target.classList.add('button--active');
+        buttonClick.classList.add('button--active');
       }
     });
   }
