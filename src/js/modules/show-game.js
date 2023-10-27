@@ -71,9 +71,13 @@ function showGame() {
    */
   function changeActiveButton(parentElement, param) {
     parentElement.addEventListener('click', (event) => {
-      if (event.target.classList.contains('button')) {
-        if (param === 'speed') speed = Number(event.target.dataset[param]);
-        if (param === 'sound') sound = Number(event.target.dataset[param]);
+      if (event.target.closest('.button')) {
+        const buttonClick = event.target.closest('.button');
+        if (param === 'speed') speed = Number(buttonClick.dataset[param]);
+        if (param === 'sound') sound = Number(buttonClick.dataset[param]);
+
+        console.log('speed', speed)
+        console.log('sound', sound)
 
         const buttons = parentElement.querySelectorAll('.button');
 
