@@ -57,7 +57,7 @@ function showGame() {
   function getRandomNumber(min, max, exception = -1) {
     const randomNumber = Math.round(Math.random() * (max - min) + min);
     if (randomNumber === exception) {
-      return randomNumber + 1 ? randomNumber + 1 : randomNumber - 1;
+      getRandomNumber(min, max, exception);
     }
     return randomNumber;
   }
@@ -75,9 +75,6 @@ function showGame() {
         const buttonClick = event.target.closest('.button');
         if (param === 'speed') speed = Number(buttonClick.dataset[param]);
         if (param === 'sound') sound = Number(buttonClick.dataset[param]);
-
-        console.log('speed', speed)
-        console.log('sound', sound)
 
         const buttons = parentElement.querySelectorAll('.button');
 
@@ -107,8 +104,8 @@ function showGame() {
         `item-${getRandomNumber(1, 6)}`
       );
 
-      const indexWord = getRandomNumber(0, WORDS.length);
-      const indexColor = getRandomNumber(0, WORDS.length, indexWord);
+      const indexWord = getRandomNumber(0, WORDS.length - 1);
+      const indexColor = getRandomNumber(0, WORDS.length - 1, indexWord);
       activeItem.textContent = WORDS[indexWord];
       activeItem.style.color = COLORS[indexColor];
 
@@ -132,6 +129,27 @@ function showGame() {
     const screen = addScreen(DOM.containerGame);
     addMarkup(screen, createFinishScreen());
     addFunctionaliatyFinishScreen();
+  }
+
+  function showGameSlider() {
+    const markup = `
+    <div class="game__img game__slider-list">
+      <div class="game__slide game__slide--active">
+        <img src="./img/svg/start-01.svg" alt="Котик с красным клубком" />
+      </div>
+      <div class="game__slide">
+        <img src="./img/svg/start-02.svg" alt="Котик с голубым клубком" />
+      </div>
+      <div class="game__slide">
+        <img src="./img/svg/start-03.svg" alt="Котик с зеленым клубком" />
+      </div>
+      <div class="game__slide">
+        <img src="./img/svg/start-04.svg" alt="Котик с фиолетовым клубком" />
+      </div>
+    </div>
+    `
+
+    return markup;
   }
 
   /**

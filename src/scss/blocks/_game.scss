@@ -32,10 +32,14 @@
     width: 60%;
   }
 
+  // &__img--desc {
+  //   position: relative;
+  //   width: 40%;
+  // }
+
   &__img {
     position: relative;
     width: 40%;
-    max-width: 50rem;
     animation-name: TopToBottom;
     animation-duration: 2s;
     animation-delay: 0.7s;
@@ -48,7 +52,7 @@
 
   &__img--mobile {
     display: none;
-    width: 60%
+    width: 60%;
   }
 
   &__slide {
@@ -397,7 +401,8 @@
 }
 
 @media (max-width: 768px) {
-  .game__inner--start, .game__inner--finish {
+  .game__inner--start,
+  .game__inner--finish {
     .game__img {
       display: none;
     }
@@ -438,131 +443,3 @@
     }
   }
 }
-
-// @media (hover: hover) {
-//   .game__button {
-//     animation-name: BottomToTop;
-//     animation-duration: 2s;
-//     animation-delay: 0.7s;
-//     animation-timing-function: ease;
-//   }
-// }
-
-// @media (max-width: 992px) {
-//   .game {
-//     &__title {
-//       margin-bottom: 30px;
-//       font-size: 40px;
-//     }
-
-//     &__text {
-//       margin-bottom: 40px;
-//       font-size: 20px;
-//     }
-
-//     &__button {
-//       font-size: 18px;
-//     }
-
-//     &__play-img {
-//       display: none;
-//     }
-
-//     &__inner--game {
-//       flex-direction: column;
-//       align-items: center;
-//       justify-content: center;
-
-//       .game__descr {
-//         width: 100%;
-//       }
-
-//       .game__play-descr {
-//         width: 100%;
-//         margin-left: auto;
-//         margin-right: auto;
-//       }
-//     }
-
-//     &__board {
-//       width: 400px;
-//       height: 400px;
-//     }
-
-//     &__timer {
-//       margin-bottom: 30px;
-//       font-size: 40px;
-//     }
-
-//     &__time {
-//       font-size: 30px;
-//     }
-//   }
-// }
-
-// @media (max-width: 768px) {
-//   .game {
-//     &__inner {
-//       flex-direction: column-reverse;
-//       row-gap: 20px;
-//     }
-
-//     &__descr {
-//       width: 100%;
-//     }
-
-//     &__img {
-//       width: 60%;
-//     }
-
-//     &__title {
-//       margin-bottom: 20px;
-//       font-size: 30px;
-//     }
-
-//     &__text {
-//       margin-bottom: 20px;
-//       font-size: 18px;
-//     }
-
-//     &__button {
-//       font-size: 16px;
-//     }
-
-//     &__res {
-//       font-size: 20px;
-//     }
-
-//     &__timer {
-//       margin-top: 30px;
-//     }
-//   }
-// }
-
-// @media (max-width: 576px) {
-//   .game {
-//     height: calc(100vh - 74px);
-//     padding: 10px;
-
-//     &__inner {
-//       padding: 0 10px 0;
-//     }
-
-//     &__buttons-list {
-//       gap: 10px;
-//     }
-
-//     &__board {
-//       width: 250px;
-//       height: 250px;
-//     }
-
-//     &__timer {
-//       font-size: 30px;
-//     }
-
-//     &__time {
-//       font-size: 24px;
-//     }
-//   }
-// }
